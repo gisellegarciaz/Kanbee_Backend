@@ -1,31 +1,33 @@
 package com.kanbee.api.domain.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "boards")
+@Table(name = "card_assignment_history")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class CardAssignmentHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne
+    private Card card;
+
+    @ManyToOne
+    private User assignedTo;
 
     @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime assignedAt;
 
-    private Boolean active = true;
+    private LocalDateTime unassignedAt;
 }

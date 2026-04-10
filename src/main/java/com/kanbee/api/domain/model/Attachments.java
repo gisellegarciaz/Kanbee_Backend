@@ -4,24 +4,29 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "attachments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardList {
+public class Attachments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String title;
+    private String fileName;
 
-    private Integer position;
+    private String fileUrl;
 
     @ManyToOne
-    private Board board;
+    private Card card;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

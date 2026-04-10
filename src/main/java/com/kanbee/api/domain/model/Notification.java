@@ -1,8 +1,8 @@
 package com.kanbee.api.domain.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -10,22 +10,23 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "boards")
+@Table(name = "notifications")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne
+    private User user;
+
+    private String message;
+
+    private Boolean read = false;
 
     @CreationTimestamp
-    @Column(updatable = false)
     private LocalDateTime createdAt;
-
-    private Boolean active = true;
 }

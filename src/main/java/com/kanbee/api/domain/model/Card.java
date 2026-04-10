@@ -1,6 +1,6 @@
 package com.kanbee.api.domain.model;
 
-import jakarta.annotation.Priority;
+import com.kanbee.api.domain.enums.Priority;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,15 +32,20 @@ public class Card {
 
     private LocalDateTime dueDate;
 
+    @Column(nullable = false)
     private Integer position;
 
-    @ManyToOne
-    private BoardList list;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "column_id")
+    private BoardColumn column;
 
     @ManyToOne
+    @JoinColumn(name = "assigned_to")
     private User assignedTo;
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    private LocalDateTime archivedAt;
 }

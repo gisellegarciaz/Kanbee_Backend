@@ -1,7 +1,10 @@
 package com.kanbee.api.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -16,11 +19,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String avatarUrl;
+    @Column(nullable = false)
+    private String password;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference // pra não ter json infinito
+    private Profile profile;
 }
