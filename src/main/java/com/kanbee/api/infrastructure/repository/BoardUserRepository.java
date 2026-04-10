@@ -2,13 +2,18 @@ package com.kanbee.api.infrastructure.repository;
 
 import com.kanbee.api.domain.model.BoardUser;
 import com.kanbee.api.domain.enums.BoardRole;
+import com.kanbee.api.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BoardUserRepository extends JpaRepository<BoardUser, UUID> {
+
+    @Query("SELECT bu.user FROM BoardUser bu WHERE bu.board.id = :boardId")
+    List<User> findUsersByBoardId(UUID boardId);
 
     // Buscar membro específico (user dentro de um board)
     Optional<BoardUser> findByBoardIdAndUserId(UUID boardId, UUID userId);
