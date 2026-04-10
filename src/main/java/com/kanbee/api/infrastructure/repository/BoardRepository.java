@@ -1,4 +1,4 @@
-package com.kanbee.api.domain.repository;
+package com.kanbee.api.infrastructure.repository;
 
 import com.kanbee.api.domain.model.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
