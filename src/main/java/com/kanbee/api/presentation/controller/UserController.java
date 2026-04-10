@@ -1,9 +1,8 @@
 package com.kanbee.api.presentation.controller;
 
 import com.kanbee.api.application.dto.CreateUserDTO;
-import com.kanbee.api.domain.model.Profile;
+import com.kanbee.api.application.service.UserService;
 import com.kanbee.api.domain.model.User;
-import com.kanbee.api.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,42 +15,35 @@ import java.util.UUID;
 @CrossOrigin(origins = "*")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    // Listar usuários
+    // Listar todos os usuários
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
-    // Buscar por ID
+    // Buscar usuários por board
+    @GetMapping("/by-board")
+    public List<User> getUsersByBoard(@RequestParam UUID boardId) {
+        return userService.getUsersByBoard(boardId);
+    }
+
+    // Buscar usuário por ID
     @GetMapping("/{id}")
     public User getUserById(@PathVariable UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return userService.getUserById(id);
     }
 
-    // Criar user + profile
+    // Criar usuário + profile
     @PostMapping
     public User createUser(@RequestBody CreateUserDTO dto) {
-
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-
-        Profile profile = new Profile();
-        profile.setName(dto.getName());
-        profile.setAvatarUrl(dto.getAvatarUrl());
-        profile.setUser(user);
-
-        user.setProfile(profile);
-
-        return userRepository.save(user);
+        return userService.createUser(dto);
     }
 
-    // Delete
+    // Deletar usuário
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable UUID id) {
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
 }

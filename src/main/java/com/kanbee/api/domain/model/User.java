@@ -28,4 +28,11 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference // pra não ter json infinito
     private Profile profile;
+
+    public void createProfile(String name) {
+        Profile profile = new Profile();
+        profile.setName(name);
+        profile.setUser(this);
+        this.profile = profile;
+    }
 }

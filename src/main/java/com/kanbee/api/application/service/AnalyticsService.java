@@ -52,7 +52,7 @@ public class AnalyticsService {
                     : LocalDateTime.now();
 
             intervals.add(new StatusInterval(
-                    current.getToList().getTitle(),
+                    current.getToColumn().getTitle(),
                     start,
                     end
             ));
